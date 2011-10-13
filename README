@@ -1,0 +1,35 @@
+= MultiBlock
+
+MultiBlock is a mini framework for passing multiple blocks. Methods can either yield all blocks, or just specific ones, identified by order or named procs.
+
+== Named Procs
+
+...
+
+== MultiBlock Usage
+=== Passing
+
+...
+
+=== Yielding
+
+# The first arg to yield always defines the whished block(s)
+# The other args always get passed to the block(s)
+
+yield                                            # calls all given blocks without args
+yield :success                                   # calls :success proc without args
+yield :success, "Coded Brawl!"                   # calls :success proc with message
+yield 1                                          # calls first proc (:success in this case)
+yield [:success, :bonus]                         # calls :success and :bonus without args
+yield [:success, :bonus], "Brawl coded!"         # calls both procs with same arg
+yield success: "Brawl coded!",                   # calls each keyed proc,
+      error:   [500, "Internal Brawl Error"]     #       values are the args
+
+
+== Bonus sugar
+
+=== Array extension
+If you like the slim &to_proc operator, you can include it for arrays:
+
+  Array.send :include, Blocker::Array
+
