@@ -4,7 +4,10 @@
 class NamedProc < Proc
   attr_reader :name
 
-  def initialize(name) @name = name end
+  def initialize(name)
+    @name = name
+    super
+  end
   
   # create one from a given proc/lambda object
   def self.create(name, block, lambda = false)
