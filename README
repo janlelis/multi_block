@@ -1,12 +1,13 @@
 = MultiBlock
 
-MultiBlock is a mini framework for passing multiple blocks to methods in Ruby. It uses "named procs" to accomplish this in a nice way. The receiving methods can either yield all blocks, or just specific ones, identified by order or name.
+MultiBlock is a mini framework for passing multiple blocks to methods. It uses "named procs" to accomplish this in a nice way. The receiving method can either yield all blocks, or just call specific ones, identified by order or name.
+
+Load or require <tt>multi_block.rb</tt> to get started.
 
 == Named Procs
+A named proc acts like a normal proc, but has got a name attribute. You can create it by calling a method with the desired name on +proc+:
 
-You can create a named proc in this way
-
-    >> a = proc.even?{ |e| e.odd? }
+    >> a = proc.even?{ |e| e.even? }
     => #<NamedProc:0x00000001ffc340@(irb):1>
     >> a.name
     => :even?
@@ -21,13 +22,15 @@ In the same way, you can create lambdas:
     => :doubler
     >> b[21]
     => 42
+    >> b.lambda?
+    => true
 
 == MultiBlock Usage
 === Defining methods that use multiple blocks
 
-The first argument given to yield always defines the desired block(s). The other arguments get directly passed to the block(s).
+The first argument given to yield always defines the desired block(s). The other arguments get directly passed to the block(s). So these are example calls to the block:
 
-    yield                                            # calls all given blocks without args
+    yield                                            # calls all given procs without args
     yield :success                                   # calls :success proc without args
     yield :success, "Code Brawl!"                    # calls :success proc with message
     yield 1                                          # calls first proc (:success in this case)
@@ -36,7 +39,7 @@ The first argument given to yield always defines the desired block(s). The other
     yield success: "Code Brawl!",                    # calls each keyed proc,
           error:   [500, "Internal Brawl Error"]     #       values are the args
 
-Consider these two examples:
+Consider these two example methods:
 
     def ajax
       yield rand(6) != 0 ? :success : :error # calls the :success block if everything worked well
@@ -64,7 +67,7 @@ The dice method could, for example, be called in this way:
       proc{ ":O" },
       proc{ ":b" },
       proc{ ":P" },
-      proc{ rand(50) != 0 ? ":)"  : ":D"},
+      proc{ rand(42) != 0 ? ":)"  : ":D"},
     ]
 
 == Bonus sugar: Array extension
@@ -73,15 +76,15 @@ If you like the slim <tt>&to_proc</tt> operator, you can further optimize the sy
 
     Array.send :include, MultiBlock::Array
 
-This allows you to write methods in such a way:
+Now, it's getting real hot:
 
-    do_something, first_arg, &[
-      proc.easy_method do
+    do_something, some_argument, &[
+      proc.easy_way do
         # do it the easy way
       end,
       
-      proc.complex_method do
+      proc.complex_way do
         # use complex heuristics, etc.
-      end
+      end,
     ]
 
