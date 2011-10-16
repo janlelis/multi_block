@@ -58,33 +58,15 @@ module MultiBlock
     # alias b     blocks
   end
   
-  ::Object.send :include, MultiBlock::Object
+  ::Object.send :include, ::MultiBlock::Object
 
   # Bonus array mixin (if you want to)
   module Array
     # see README for an example
     def to_proc
-      MutliBlock[*self]
+      ::MultiBlock[*self]
     end
   end
   
   # ::Array.send :include, MultiBlock::Array
-end
-
-if __FILE__ == $0 # run tests
-
-  def ajax
-    yield rand(6) != 0 ? :success : :error
-  end
-
-  def dice
-    random_number = rand(6)
-    yield random_number, random_number + 1
-  end
-
-  ajax &blocks[
-    proc.success do puts 5 end,
-    proc.error   do puts 7 end,
-  ]
-  
 end

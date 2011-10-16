@@ -1,35 +1,87 @@
 = MultiBlock
 
-MultiBlock is a mini framework for passing multiple blocks. Methods can either yield all blocks, or just specific ones, identified by order or named procs.
+MultiBlock is a mini framework for passing multiple blocks to methods in Ruby. It uses "named procs" to accomplish this in a nice way. The receiving methods can either yield all blocks, or just specific ones, identified by order or name.
 
 == Named Procs
 
-...
+You can create a named proc in this way
+
+    >> a = proc.even?{ |e| e.odd? }
+    => #<NamedProc:0x00000001ffc340@(irb):1>
+    >> a.name
+    => :even?
+    >> a[42]
+    => false
+
+In the same way, you can create lambdas:
+
+    >> b = lambda.doubler{ |e| e * 2 }
+    => #<NamedProc:0x000000020685e0@(irb):7 (lambda)>
+    >> b.name
+    => :doubler
+    >> b[21]
+    => 42
 
 == MultiBlock Usage
-=== Passing
+=== Defining methods that use multiple blocks
 
-...
+The first argument given to yield always defines the desired block(s). The other arguments get directly passed to the block(s).
 
-=== Yielding
+    yield                                            # calls all given blocks without args
+    yield :success                                   # calls :success proc without args
+    yield :success, "Code Brawl!"                    # calls :success proc with message
+    yield 1                                          # calls first proc (:success in this case)
+    yield [:success, :bonus]                         # calls :success and :bonus without args
+    yield [:success, :bonus], "Code Brawl!"          # calls both procs with same arg
+    yield success: "Code Brawl!",                    # calls each keyed proc,
+          error:   [500, "Internal Brawl Error"]     #       values are the args
 
-# The first arg to yield always defines the whished block(s)
-# The other args always get passed to the block(s)
+Consider these two examples:
 
-yield                                            # calls all given blocks without args
-yield :success                                   # calls :success proc without args
-yield :success, "Coded Brawl!"                   # calls :success proc with message
-yield 1                                          # calls first proc (:success in this case)
-yield [:success, :bonus]                         # calls :success and :bonus without args
-yield [:success, :bonus], "Brawl coded!"         # calls both procs with same arg
-yield success: "Brawl coded!",                   # calls each keyed proc,
-      error:   [500, "Internal Brawl Error"]     #       values are the args
+    def ajax
+      yield rand(6) != 0 ? :success : :error # calls the :success block if everything worked well
+    end
 
+    def dice
+      random_number = rand(6)
+      yield random_number, random_number + 1 # calls the n-th block
+    end
 
-== Bonus sugar
+=== Calling methods with multiple blocks
 
-=== Array extension
-If you like the slim &to_proc operator, you can include it for arrays:
+It's done by calling the +blocks+ helper method:
 
-  Array.send :include, Blocker::Array
+    ajax &blocks[
+      proc.success do puts "Yeah!" end,
+      proc.error   do puts "Error..." end,
+    ]
+
+The dice method could, for example, be called in this way:
+
+    dice &blocks[
+      proc{ ":(" },
+      proc{ ":/" },
+      proc{ ":O" },
+      proc{ ":b" },
+      proc{ ":P" },
+      proc{ rand(50) != 0 ? ":)"  : ":D"},
+    ]
+
+== Bonus sugar: Array extension
+
+If you like the slim <tt>&to_proc</tt> operator, you can further optimize the syntax by calling:
+
+    Array.send :include, MultiBlock::Array
+
+This allows you to write methods in such a way:
+
+    do_something, first_arg, &[
+      proc.easy_method do
+        # do it the easy way
+      end,
+      
+      proc.complex_method do
+        # use complex heuristics, etc.
+      end
+    ]
 
