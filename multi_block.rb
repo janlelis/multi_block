@@ -14,8 +14,9 @@ module MultiBlock
     # Build yielder proc
     Proc.new{ |*proc_names_and_args|
       if proc_names_and_args.empty? # call all procs
-        proc_array.map(&:call)
+        ret = proc_array.map(&:call)
         
+        proc_array.size == 1 ? ret.first : ret
       else
         proc_names, *proc_args = *proc_names_and_args
         
@@ -38,8 +39,9 @@ module MultiBlock
           }.map{ |proc, proc_args|
             proc.call(*proc_args)
           }
+
+          ret.size == 1 ? ret.first : ret
           
-          proc_names.size == 1 ? ret.first : ret  # deliver consistent return value
         end
       end
     }
