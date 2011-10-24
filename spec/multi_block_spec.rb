@@ -1,5 +1,5 @@
 # encoding: utf-8
-require_relative 'multi_block'
+require_relative '../lib/multi_block'
 
 describe "blocks" do
   it "returns the MutliBlock constant (for calling [] on it)" do

@@ -1,5 +1,5 @@
 # encoding: utf-8
-require_relative 'named_proc'
+require_relative '../lib/named_proc'
 
 describe "proc" do
   it "creates a new proc as usual when called with a block" do

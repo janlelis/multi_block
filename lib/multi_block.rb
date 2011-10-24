@@ -1,5 +1,5 @@
 # encoding: utf-8
-require_relative 'named_proc'
+require 'named_proc'
 
 module MultiBlock
   # multiple block transformation method,
