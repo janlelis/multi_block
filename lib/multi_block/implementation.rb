@@ -48,12 +48,11 @@ module MultiBlock
     private
     
     def blocks
-      MultiBlock#[]
+      MultiBlock
     end
   end
 
-  # Optional Array mixin, use it with
-  # ::Array.include MultiBlock::Array
+  # Optional Array mixin
   module Array
     def to_proc
       ::MultiBlock[*self]

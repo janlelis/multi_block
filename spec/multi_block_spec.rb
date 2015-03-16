@@ -91,3 +91,19 @@ describe "MultiBlock#[]" do
     end
   end
 end
+
+describe "Array#to_proc" do
+  it "works without blocks helper" do
+    def another_method
+      yield
+    end
+
+    proc_array = [
+      proc{5},
+      proc{6},
+    ]
+    proc_array.send :extend, MultiBlock::Array
+  
+    expect( another_method(&proc_array) ).to eq [5,6]
+  end
+end

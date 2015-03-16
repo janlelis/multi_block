@@ -65,9 +65,9 @@ The dice method could, for example, be called in this way:
 
 If you like the slim <tt>&to_proc</tt> operator, you can further optimize the syntax by activating the core extension for array:
 
-    Array.include MultiBlock::Array
+    require 'multi_block/array'
 
-Now you can:
+Now you do not need the +blocks+ helper anymore. Instead just do:
 
     do_something, some_argument, &[
       proc.easy_way{
