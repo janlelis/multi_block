@@ -1,33 +1,12 @@
 = MultiBlock
 
-MultiBlock is a mini framework for passing multiple blocks to methods. It uses "named procs" to accomplish this in a nice way. The receiving method can either yield all blocks, or just call specific ones, identified by order or name.
+MultiBlock is a mini framework for passing multiple blocks to methods. It uses [named procs](https://github.com/janlelis/named_proc) to accomplish this in a nice way. The receiving method can either yield all blocks, or just call specific ones, identified by order or name.
 
-These gem was build during a codebrawl contest. You might also take a look at the other entries: http://codebrawl.com/contests/methods-taking-multiple-blocks
 
 == Setup
 
     gem install multi_block
 
-== Named Procs
-A named proc acts like a normal proc, but has got a name attribute. You can create it by calling a method with the desired name on +proc+:
-
-    >> a = proc.even?{ |e| e.even? }
-    => #<NamedProc:0x00000001ffc340@(irb):1>
-    >> a.name
-    => :even?
-    >> a[42]
-    => false
-
-In the same way, you can create lambdas:
-
-    >> b = lambda.doubler{ |e| e * 2 }
-    => #<NamedProc:0x000000020685e0@(irb):7 (lambda)>
-    >> b.name
-    => :doubler
-    >> b[21]
-    => 42
-    >> b.lambda?
-    => true
 
 == MultiBlock Usage
 === Defining methods that use multiple blocks
@@ -54,6 +33,7 @@ Consider these two example methods:
       yield random_number, random_number + 1 # calls the n-th block
     end
 
+
 === Calling methods with multiple blocks
 
 It's done by calling the +blocks+ helper method:
@@ -74,6 +54,7 @@ The dice method could, for example, be called in this way:
       proc{ rand(42) != 0 ? ":)"  : ":D"},
     ]
 
+
 == Bonus sugar: Array extension
 
 If you like the slim <tt>&to_proc</tt> operator, you can further optimize the syntax by calling:
@@ -92,4 +73,9 @@ Now, it's getting real hot:
       end,
     ]
 
+
 == J-_-L
+
+These gem was build during a codebrawl contest. You might also take a look at the other entries: http://codebrawl.com/contests/methods-taking-multiple-blocks
+
+Released under the MIT License.
