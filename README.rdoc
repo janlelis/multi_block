@@ -76,6 +76,6 @@ Now, it's getting real hot:
 
 == J-_-L
 
-These gem was build during a codebrawl contest. You might also take a look at the other entries: http://codebrawl.com/contests/methods-taking-multiple-blocks
+These gem was build during a codebrawl contest. See the original gist: https://gist.github.com/4b2f5fd0b45118e46d0f. You might also take a look at the other entries: http://codebrawl.com/contests/methods-taking-multiple-blocks
 
 Released under the MIT License.

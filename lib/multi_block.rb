@@ -1,9 +1,9 @@
-# encoding: utf-8
+require_relative 'multi_block/version'
+
 require 'named_proc'
 
 module MultiBlock
-  # multiple block transformation method,
-  # sorry for the method length and the code dup ;)
+  # Multiple block transformation method
   def self.[](*proc_array)
     # Create hash representation, proc_array will still get used sometimes
     proc_hash = {}
@@ -47,28 +47,22 @@ module MultiBlock
     }
   end
   
-  # low level mixins
+  # Low level mixins
   module Object
     private
     
-    # to_proc helper, see README
     def blocks
       MultiBlock#[]
     end
-    
-    # alias procs blocks
-    # alias b     blocks
   end
   
   ::Object.send :include, ::MultiBlock::Object
 
-  # Bonus array mixin (if you want to)
+  # Optional Array mixin, use it with
+  # ::Array.send :include, MultiBlock::Array
   module Array
-    # see README for an example
     def to_proc
       ::MultiBlock[*self]
     end
   end
-  
-  # ::Array.send :include, MultiBlock::Array
 end
