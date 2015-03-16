@@ -1,17 +1,19 @@
-= MultiBlock
+= MultiBlock  {<img src="https://travis-ci.org/janlelis/multi_block.png" />}[https://travis-ci.org/janlelis/multi_block]
 
-MultiBlock is a mini framework for passing multiple blocks to methods. It uses [named procs](https://github.com/janlelis/named_proc) to accomplish this in a nice way. The receiving method can either yield all blocks, or just call specific ones, identified by order or name.
+MultiBlock is a mini framework for passing multiple blocks to methods. It uses {named procs}[https://github.com/janlelis/named_proc] to accomplish this with a simple syntax. The receiving method can either yield all blocks, or just call specific ones, identified by order or name.
 
 
 == Setup
 
-    gem install multi_block
+Add to Gemfile:
+
+    gem 'multi_block'
 
 
-== MultiBlock Usage
+== Usage
 === Defining methods that use multiple blocks
 
-The first argument given to yield always defines the desired block(s). The other arguments get directly passed to the block(s). So these are example calls to the block:
+The first argument given to yield always defines the desired block(s). The other arguments get directly passed to the block(s):
 
     yield                                            # calls all given procs without args
     yield :success                                   # calls :success proc without args
@@ -22,26 +24,30 @@ The first argument given to yield always defines the desired block(s). The other
     yield success: "Code Brawl!",                    # calls each keyed proc,
           error:   [500, "Internal Brawl Error"]     #       values are the args
 
-Consider these two example methods:
-
-    def ajax
-      yield rand(6) != 0 ? :success : :error # calls the :success block if everything worked well
-    end
-
-    def dice
-      random_number = rand(6)
-      yield random_number, random_number + 1 # calls the n-th block
-    end
-
 
 === Calling methods with multiple blocks
 
-It's done by calling the +blocks+ helper method:
+Consider these two example methods:
+
+    # calls the :success block if everything worked well
+    def ajax
+      yield rand(6) != 0 ? :success : :error
+    end
+
+    # calls the n-th block
+    def dice
+      random_number = rand(6)
+      yield random_number, random_number + 1
+    end
+
+
+Multiple blocks can be passed using +blocks+:
 
     ajax &blocks[
-      proc.success do puts "Yeah!" end,
-      proc.error   do puts "Error..." end,
+      proc.success{ puts "Yeah!"    },
+      proc.error  { puts "Error..." },
     ]
+
 
 The dice method could, for example, be called in this way:
 
@@ -57,25 +63,24 @@ The dice method could, for example, be called in this way:
 
 == Bonus sugar: Array extension
 
-If you like the slim <tt>&to_proc</tt> operator, you can further optimize the syntax by calling:
+If you like the slim <tt>&to_proc</tt> operator, you can further optimize the syntax by activating the core extension for array:
 
-    Array.send :include, MultiBlock::Array
+    Array.include MultiBlock::Array
 
-Now, it's getting real hot:
+Now you can:
 
     do_something, some_argument, &[
-      proc.easy_way do
+      proc.easy_way{
         # do it the easy way
-      end,
-      
-      proc.complex_way do
+      },
+      proc.complex_way{
         # use complex heuristics, etc.
-      end,
+      },
     ]
 
 
 == J-_-L
 
-These gem was build during a codebrawl contest. See the original gist: https://gist.github.com/4b2f5fd0b45118e46d0f. You might also take a look at the other entries: http://codebrawl.com/contests/methods-taking-multiple-blocks
+This gem was built for a contest in 2011. See the original gist: https://gist.github.com/4b2f5fd0b45118e46d0f. You might also take a look at the other entries: http://codebrawl.com/contests/methods-taking-multiple-blocks
 
 Released under the MIT License.
