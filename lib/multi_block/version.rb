@@ -1,3 +1,3 @@
 module MultiBlock
-  VERSION = "1.0".freeze
+  VERSION = "1.1".freeze
 end

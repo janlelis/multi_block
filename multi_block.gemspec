@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.files = Dir.glob %w{multi_block.gemspec lib/multi_block.rb lib/multi_block/version.rb lib/multi_block/implementation.rb lib/multi_block/core_ext.rb lib/multi_block/array.rb spec/multi_block_spec.rb}
   s.extra_rdoc_files = ["README.rdoc", "MIT-LICENSE.txt", "CHANGELOG.rdoc", ".travis.yml"]
   s.license = 'MIT'
-  s.add_dependency 'named_proc', '~> 1.0'
+  s.add_dependency 'named_proc', '~> 1.1'
   s.add_development_dependency 'rspec', '~> 3.2'
   s.add_development_dependency 'rake', '~> 10.4'
 end
