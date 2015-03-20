@@ -1,6 +1,6 @@
-== 1.1.0 (master)
+== 1.1
 * Updates for 2015 Rubies, drop support for Ruby 1
 * Simplify activating Array extension via: require 'multi_block/array'
 
-== 1.0.0
+== 1.0
 * Initial Release
