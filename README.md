@@ -1,17 +1,18 @@
-= MultiBlock {<img src="https://badge.fury.io/rb/multi_block.svg" />}[http://badge.fury.io/rb/multi_block] {<img src="https://travis-ci.org/janlelis/multi_block.png" />}[https://travis-ci.org/janlelis/multi_block]
+# MultiBlock [<img src="https://badge.fury.io/rb/multi_block.svg" />](https://badge.fury.io/rb/multi_block) [<img src="https://github.com/janlelis/multi_block/workflows/Test/badge.svg" />](https://github.com/janlelis/multi_block/actions?query=workflow%3ATest)
 
-MultiBlock is a mini framework for passing multiple blocks to methods. It uses {named procs}[https://github.com/janlelis/named_proc] to accomplish this with a simple syntax. The receiving method can either yield all blocks, or just call specific ones, identified by order or name.
+MultiBlock is a mini framework for passing multiple blocks to methods. It uses [named procs](https://github.com/janlelis/named_proc) to accomplish this with a simple syntax. The receiving method can either yield all blocks, or just call specific ones, identified by order or name.
 
+Currently supports CRuby only.
 
-== Setup
+## Setup
 
 Add to Gemfile:
 
     gem 'multi_block'
 
 
-== Usage
-=== Defining methods that use multiple blocks
+## Usage
+### Defining methods that use multiple blocks
 
 The first argument given to yield always defines the desired block(s). The other arguments get directly passed to the block(s):
 
@@ -25,7 +26,7 @@ The first argument given to yield always defines the desired block(s). The other
           error:   [500, "Internal Brawl Error"]     #       values are the args
 
 
-=== Calling methods with multiple blocks
+### Calling methods with multiple blocks
 
 Consider these two example methods:
 
@@ -41,7 +42,7 @@ Consider these two example methods:
     end
 
 
-Multiple blocks can be passed using +blocks+:
+Multiple blocks can be passed using `blocks`:
 
     ajax &blocks[
       proc.success{ puts "Yeah!"    },
@@ -61,13 +62,13 @@ The dice method could, for example, be called in this way:
     ]
 
 
-== Bonus sugar: Array extension
+## Bonus sugar: Array extension
 
-If you like the slim <tt>&to_proc</tt> operator, you can further optimize the syntax by activating the core extension for array:
+If you like the slim `&to_proc` operator, you can further optimize the syntax by activating the core extension for array:
 
     require 'multi_block/array'
 
-Now you do not need the +blocks+ helper anymore. Instead just do:
+Now you do not need the `blocks` helper anymore. Instead just do:
 
     do_something, some_argument, &[
       proc.easy_way{
@@ -79,5 +80,6 @@ Now you do not need the +blocks+ helper anymore. Instead just do:
     ]
 
 
-== MIT License
+## MIT License
+
 See the original gist: https://gist.github.com/4b2f5fd0b45118e46d0f
