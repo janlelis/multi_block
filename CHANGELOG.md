@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.2 (unreleased)
+## 1.2
 
 * Update project setup to 2021
 * Re-release
